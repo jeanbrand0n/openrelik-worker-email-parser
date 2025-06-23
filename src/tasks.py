@@ -1,5 +1,6 @@
 """OpenRelik Worker Email Parser Task"""
 
+import logging
 import src.email_parsing_utils as email_parsing_utils
 
 from openrelik_worker_common.file_utils import create_output_file
@@ -7,7 +8,7 @@ from openrelik_worker_common.task_utils import create_task_result, get_input_fil
 
 from .app import celery
 
-
+logger = logging.getLogger(__name__)
 # Task name used to register and route the task to the correct queue.
 TASK_NAME = "openrelik-worker-email-parser.tasks.command"
 
@@ -64,7 +65,7 @@ def command(
         input_extension = input_file.get("extension", "").lower()
 
         if input_extension not in email_parsing_utils.SUPPORTED_EXTENSIONS:
-            print('Skipping file with unsupported extension:',
+            logging.info('Skipping file with unsupported extension:',
                    input_file['extension'])
             continue
 
@@ -77,7 +78,7 @@ def command(
 
         # MBOX
         if input_extension == "mbox":
-            print(f"Processing MBOX file: {input_file.get('path')}")
+            logging.info(f"Processing MBOX file: {input_file.get('path')}")
 
             attachment_file_paths, mbox_dict = email_parsing_utils.parse_mbox_to_dict_and_extract_attachments(
                 file_path=input_file.get("path"),
@@ -93,7 +94,7 @@ def command(
 
         # EML
         if input_extension == "eml":
-            print(f"Processing EML file: {input_file.get('path')}")
+            logging.info(f"Processing EML file: {input_file.get('path')}")
 
             attachment_file_paths, eml_dict = email_parsing_utils.parse_eml_to_dict_and_extract_attachments(
                 file_path=input_file.get("path"),
