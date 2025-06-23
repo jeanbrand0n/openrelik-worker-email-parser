@@ -1,6 +1,6 @@
 """OpenRelik Worker Email Parser Task"""
 
-from src.email_parsing_utils import *
+import src.email_parsing_utils as email_parsing_utils
 
 from openrelik_worker_common.file_utils import create_output_file
 from openrelik_worker_common.task_utils import create_task_result, get_input_files
@@ -63,7 +63,7 @@ def command(
     for input_file in input_files:
         input_extension = input_file.get("extension", "").lower()
 
-        if input_extension not in SUPPORTED_EXTENSIONS:
+        if input_extension not in email_parsing_utils.SUPPORTED_EXTENSIONS:
             print('Skipping file with unsupported extension:',
                    input_file['extension'])
             continue
@@ -79,10 +79,10 @@ def command(
         if input_extension == "mbox":
             print(f"Processing MBOX file: {input_file.get('path')}")
 
-            attachment_file_paths, mbox_dict = parse_mbox_to_dict_and_extract_attachments(
+            attachment_file_paths, mbox_dict = email_parsing_utils.parse_mbox_to_dict_and_extract_attachments(
                 file_path=input_file.get("path"),
                 output_path=output_path)
-            mbox_csv = write_dict_to_csv(
+            mbox_csv = email_parsing_utils.write_dict_to_csv(
                 message_dict=mbox_dict, headers=csv_headers,
                 output_file=output_file)
             output_files.append(mbox_csv.to_dict())
@@ -95,10 +95,10 @@ def command(
         if input_extension == "eml":
             print(f"Processing EML file: {input_file.get('path')}")
 
-            attachment_file_paths, eml_dict = parse_eml_to_dict_and_extract_attachments(
+            attachment_file_paths, eml_dict = email_parsing_utils.parse_eml_to_dict_and_extract_attachments(
                 file_path=input_file.get("path"),
                 output_path=output_path)
-            eml_csv = write_dict_to_csv(
+            eml_csv = email_parsing_utils.write_dict_to_csv(
                 message_dict=[eml_dict],
                 headers=csv_headers,
                 output_file=output_file)
@@ -110,7 +110,7 @@ def command(
 
     if not output_files:
         raise RuntimeError(
-            f"No compatible input files found. Supported extensions: {', '.join(SUPPORTED_EXTENSIONS)}."
+            f"No compatible input files found. Supported extensions: {', '.join(email_parsing_utils.SUPPORTED_EXTENSIONS)}."
         )
 
     return create_task_result(

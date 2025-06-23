@@ -4,7 +4,7 @@ Subject: Holiday Greetings with Inline Image
 To: recipient10@example.com
 From: sender10@example.com
 Message-ID: <msg10@example.com>
-CContent-Type: multipart/related; boundary="----=_NextPart_000_0001_01D1A9B6.71F8C9A0"
+Content-Type: multipart/related; boundary="----=_NextPart_000_0001_01D1A9B6.71F8C9A0"
 
 ------=_NextPart_000_0001_01D1A9B6.71F8C9A0
 Content-Type: text/html; charset="utf-8"

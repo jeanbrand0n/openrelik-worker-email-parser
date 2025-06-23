@@ -2,6 +2,7 @@ import csv
 import email
 import logging
 import mailbox
+import mimetypes
 import os
 import re
 
@@ -164,47 +165,67 @@ def parse_eml_to_dict_and_extract_attachments(file_path, output_path):
 
 def extract_message_attachments(message, output_path):
     """Extract attachments and inline content from an email message.
-    
+
     Args:
         message (object): The email message object.
         output_path (str): The path to the output directory where
-          attachments will be saved."""
-    attachment_output_files = []
+            attachments will be saved.
+    """
+    extracted_files = []
 
-    # EML; email.message.EmailMessage
-    # MBOX; mailbox.mboxMessage
     if (
-        isinstance(message, email.message.EmailMessage) 
+        isinstance(message, email.message.EmailMessage)
         or isinstance(message, mailbox.mboxMessage)
     ):
-        message_id =  santitize_filename(filename=message.get("Message-ID", ""))
+        message_id = santitize_filename(filename=message.get("Message-ID", ""))
+        if not message_id:
+            message_id = "unknown_message_" + str(abs(hash(str(message))))[:8]
 
         for part in message.walk():
+            # Skip the main message container and alternative text/html
+            # parts that don't have a filename
+            if part.is_multipart():
+                continue
+
             filename = part.get_filename()
             if filename:
-                base, ext = os.path.splitext(filename)
+                # Get the content disposition header and content type
+                disposition = part.get("Content-Disposition")
+                maintype = part.get_content_maintype()
 
-                try:
-                    attachment_output_file = create_output_file(
-                        output_path,
-                        display_name=f"{base}.{message_id}",
-                        extension=ext[1:],
-                        data_type=ext[1:],
-                    )
-                    with open(attachment_output_file.path, 'wb') as out_f:
-                        out_f.write(part.get_payload(decode=True))
-                        logger.info(f"Saved attachment: {attachment_output_file.path}")
+                # Grab inline and attached files
+                if (disposition and disposition.strip().lower().startswith(("attachment", "inline"))) or \
+                   (not disposition and maintype != 'text' and filename):
 
-                    attachment_output_files.append(
-                        attachment_output_file.to_dict())
+                    base, ext = os.path.splitext(filename)
+                    processed_base = base # 'filename_base'
+                    processed_ext = ext[1:] # 'png'
+                    # Add the message ID to the display name for uniqueness
+                    attachment_file_display_name = f"{processed_base}.{message_id}"
 
-                except Exception as e:
-                    logger.error(f"Failed to save attachment {filename}: {e}")
+                    try:
+                        output_file = create_output_file(
+                            output_path,
+                            display_name=attachment_file_display_name,
+                            extension=processed_ext,
+                            data_type=processed_ext,
+                        )
+                        with open(output_file.path, 'wb') as out_f:
+                            out_f.write(part.get_payload(decode=True))
+                        logger.info(f"Saved file: {output_file.path} (Disposition: {disposition or 'implicit'})")
 
+                        extracted_files.append(output_file.to_dict())
+
+                    except Exception as e:
+                        logger.error(f"Failed to save file {filename}: {e}")
+                else:
+                    logger.debug(f"Skipping part with filename '{filename}' (Disposition: {disposition}, Maintype: {maintype}).")
+            else:
+                pass 
     else:
         logger.warning("Unsupported message type for attachment extraction.")
 
-    return attachment_output_files
+    return extracted_files
 
 
 def parse_mbox_to_dict_and_extract_attachments(file_path, output_path):

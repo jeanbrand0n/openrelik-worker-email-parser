@@ -5,15 +5,22 @@ from unittest.mock import MagicMock
 import csv
 import email
 import mailbox
+import os
 import pytest
 import sys
-# Mock openrelik_worker_common
-sys.modules["openrelik_worker_common"] = MagicMock()
-sys.modules["openrelik_worker_common.file_utils"] = MagicMock()
+## Mock openrelik_worker_common
+#sys.modules["openrelik_worker_common"] = MagicMock()
+#sys.modules["openrelik_worker_common.file_utils"] = MagicMock()
+
+from unittest.mock import MagicMock, patch
 
 from src.email_parsing_utils import (
-    santitize_filename, convert_timestamp_to_utc, get_message_body,
-    extract_message_metadata, write_dict_to_csv)
+    santitize_filename, convert_timestamp_to_utc,
+    create_output_file, get_message_body,
+    extract_message_metadata, extract_message_attachments,
+    parse_eml_to_dict_and_extract_attachments,
+    parse_mbox_to_dict_and_extract_attachments,
+    write_dict_to_csv)
 
 
 # Message test metadata
@@ -224,31 +231,39 @@ def test_extract_message_metadata(msg_filename):
     assert msg_metadata["Attachments"] == attachments
 
 
-# Missing coverage for the following functions:
-#parse_mbox_to_dict_and_extract_attachments
-#parse_eml_to_dict_and_extract_attachments
-#extract_message_attachments
-# test_extract_message_metadata_complete_mbox():
+@pytest.mark.parametrize("msg_archive_filename", MSG_TEST_DATA_FILENAMES)
+def test_parse_eml_mbox_to_dict_and_extract_attachments(tmp_path, msg_archive_filename):
+    # Arrange
+    mail_path = f'testdata/{msg_archive_filename}'
+    output_dir = tmp_path
+    expected_attachments = MSG_TEST_METADATA[msg_archive_filename]["Attachments"]
 
-#@pytest.mark.parametrize(
-#    "eml_filename",
-#    [
-#        ("simple_message.eml"),
-#        ("attachment_message.eml"),
-#    ]
-#)
-#def test_parse_eml_to_dict_and_extract_attachments(tmp_path, eml_filename):
-#    # Arrange
-#    eml_path = f'testdata/{eml_filename}'
-#    output_dir = tmp_path  # Use a temporary directory for attachments
-#    expected_attachments = MSG_TEST_METADATA[eml_filename]["Attachments"]
-#
-#    # Act
-#    attachments, eml_metadata = parse_eml_to_dict_and_extract_attachments(eml_path, str(output_dir))
-#
-#    # Assert
-#    assert len(eml_metadata) > 0
-#
-#    # Optionally, check that attachment files were created
-#    for expected_attachment in expected_attachments:
-#        assert any(expected_attachment in os.path.basename(a["display_name"]) for a in attachments)
+    # Act
+    if msg_archive_filename.endswith('.eml'):
+       attachments, email_metadata = parse_eml_to_dict_and_extract_attachments(
+           file_path=mail_path, 
+           output_path=str(output_dir))
+    elif msg_archive_filename.endswith('.mbox'):
+       attachments, email_metadata = parse_mbox_to_dict_and_extract_attachments(
+           file_path=mail_path,
+           output_path=str(output_dir))
+       
+    email_metadata_dict = email_metadata[0] if isinstance(email_metadata, list) else email_metadata
+    msg_id = santitize_filename(email_metadata_dict.get("Message-ID", ""))
+
+    # Build expected attachment display names due to santitize_filename() logic
+    expected_display_names = [
+        f"{os.path.splitext(fn)[0]}.{msg_id}.{os.path.splitext(fn)[1].lstrip('.')}"
+        for fn in expected_attachments
+    ]
+    actual_display_names = [os.path.basename(a["display_name"]) for a in attachments]
+
+    # Assert
+    assert len(email_metadata) > 0
+
+    # Verify attachments were written out
+    for expected_name in expected_display_names:
+        matching = [a for a in attachments if os.path.basename(a["display_name"]) == expected_name]
+        assert matching, f"Attachment '{expected_name}' not found in {actual_display_names}"
+        file_path = matching[0]["path"]
+
