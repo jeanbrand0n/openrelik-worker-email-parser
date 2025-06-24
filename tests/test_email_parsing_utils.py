@@ -212,7 +212,9 @@ def test_extract_message_metadata(msg_filename):
     """Test extracting metadata from various types of EML/MBOX messages."""
 
     # Arrange
-    msg_path = f'testdata/{msg_filename}'
+    cwd = os.path.dirname(os.path.abspath(__file__))
+    msg_path = os.path.join(cwd, 'testdata', msg_filename)
+    #msg_path = f'testdata/{msg_filename}'
     msg = return_msg_from_file(file_path=msg_path)
     attachments = MSG_TEST_METADATA[msg_filename]["Attachments"]
 
@@ -234,7 +236,9 @@ def test_extract_message_metadata(msg_filename):
 @pytest.mark.parametrize("msg_archive_filename", MSG_TEST_DATA_FILENAMES)
 def test_parse_eml_mbox_to_dict_and_extract_attachments(tmp_path, msg_archive_filename):
     # Arrange
-    mail_path = f'testdata/{msg_archive_filename}'
+    cwd = os.path.dirname(os.path.abspath(__file__))
+    mail_path = os.path.join(cwd, 'testdata', msg_archive_filename)
+    #mail_path = f'testdata/{msg_archive_filename}'
     output_dir = tmp_path
     expected_attachments = MSG_TEST_METADATA[msg_archive_filename]["Attachments"]
 
