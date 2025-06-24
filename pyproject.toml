@@ -1,8 +1,8 @@
 [tool.poetry]
-name = "openrelik-worker-TEMPLATE-WORKER-NAME"
+name = "openrelik-worker-email-parsing"
 version = "0.1.0"
-description = "Description of the worker"
-authors = ["YOUR NAME <email@example.com>"]
+description = "Parse email artifacts"
+authors = ["jeanbrand0n <benoitcraie@gmail.com>"]
 readme = "README.md"
 package-mode = false
 

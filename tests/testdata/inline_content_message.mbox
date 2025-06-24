@@ -1,0 +1,33 @@
+From sender10@example.com Thu, 1 Jan 2024 00:00:10 
+Date: Thu, 1 Jan 2024 00:00:10 +0000
+Subject: Holiday Greetings with Inline Image
+To: recipient10@example.com
+From: sender10@example.com
+Message-ID: <msg10@example.com>
+Content-Type: multipart/related; boundary="----=_NextPart_000_0001_01D1A9B6.71F8C9A0"
+
+------=_NextPart_000_0001_01D1A9B6.71F8C9A0
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8">
+</head>
+<body>
+<p>Hello,</p>
+<p>This email demonstrates inline content. You should see an image below:</p>
+<p><img src=3D"cid:my_inline_image.png" alt=3D"An inline image"></p>
+<p>And here's some additional text after the image.</p>
+</body>
+</html>
+
+------=_NextPart_000_0001_01D1A9B6.71F8C9A0
+Content-Type: image/png
+Content-Transfer-Encoding: base64
+Content-ID: <my_inline_image.png>
+Content-Disposition: inline; filename="my_inline_image.png"
+
+iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8A
+AAAASUVORK5CYII=
+------=_NextPart_000_0001_01D1A9B6.71F8C9A0--

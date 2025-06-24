@@ -1,0 +1,55 @@
+From: Sender <sender@example.com>
+To: Recipient <recipient@example.com>
+Subject: Test Email with Inline Image
+Date: Wed, 23 Oct 2024 10:34:04 +0300
+Message-ID: <test-message-1234@example.com>
+MIME-Version: 1.0
+Content-Type: multipart/related;
+    boundary="----------=_5e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e"
+
+This is a multi-part message in MIME format.
+
+------------=_5e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e
+Content-Type: multipart/alternative;
+    boundary="----------=_4f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f"
+
+------------=_4f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hello,
+
+This is a test email with an inline image. You should see a small image below:
+
+[Image will appear here in HTML part]
+
+Best regards,
+Your Name
+
+------------=_4f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<body>
+<p>Hello,</p>
+<p>This is a test email with an inline image. You should see a small image below:</p>
+<p><img src=3D"cid:myimage.png" alt=3D"My Test Image"></p>
+<p>Best regards,<br>Your Name</p>
+</body>
+</html>
+
+------------=_4f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f--
+
+------------=_5e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e
+Content-Type: image/png
+Content-Transfer-Encoding: base64
+Content-ID: <myimage.png>
+Content-Disposition: inline; filename="myimage.png"
+
+iVBORw0KGgoAAAANSUhEUgAAAGQAAABkAQMAAABe5lXFAAAABlBMVEVwdM//zAD/AAAAAAAAP2oJ
+AAAAaklEQVRIx2NgGAWDCqgYxVAKGMVQyjAKGIWA1E9w+Y2F4QnIAkC4YhSD0wQy/5gB5cCYM/m+
+c9AAGWz+Mv/BBYY/GBgYf/BwMDAwYGBgYMDAwMDAwMDk/wMDAwMj/P8/AwPD/wBCAABz8Jb7AAAA
+AElFTkSuQmCC
+
+------------=_5e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e--

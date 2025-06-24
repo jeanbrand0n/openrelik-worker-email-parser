@@ -1,0 +1,21 @@
+From sender3@example.com Thu Jan  1 00:00:03 2024
+Date: Thu, 1 Jan 2024 00:00:03 +0000
+Subject: Email with Attachment 1
+To: recipient3@example.com
+From: sender3@example.com
+Message-ID: <msg3@example.com>
+Content-Type: multipart/mixed; boundary="----=_Part_0_1234567890.12345"
+
+------=_Part_0_1234567890.12345
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hello, please find the attached document.
+
+------=_Part_0_1234567890.12345
+Content-Type: text/plain; name="attachment1.txt"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="attachment1.txt"
+
+VGhpcyBpcyBhIHRlc3QgYXR0YWNobWVudCBjb250ZW50Lg==
+------=_Part_0_1234567890.12345--

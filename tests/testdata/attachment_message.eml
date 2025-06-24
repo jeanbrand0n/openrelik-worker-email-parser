@@ -1,0 +1,70 @@
+From: HR Department <hr@example.com>
+To: Employee <employee@example.com>
+Subject: Important: Updated Company Policy Document
+MIME-Version: 1.0
+Date: Wed, 23 Oct 2024 10:34:04 +0300
+Message-ID: <test-message-1234@example.com>
+Content-Type: multipart/mixed;
+    boundary="----------=_7g0g0g0g0g0g0g0g0g0g0g0g0g0g0g0g"
+
+This is a multi-part message in MIME format.
+
+------------=_7g0g0g0g0g0g0g0g0g0g0g0g0g0g0g0g
+Content-Type: multipart/alternative;
+    boundary="----------=_8h1h1h1h1h1h1h1h1h1h1h1h1h1h1h1h"
+
+------------=_8h1h1h1h1h1h1h1h1h1h1h1h1h1h1h1h
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+Dear Employee,
+
+Please find attached the updated "Company Policy Guidelines.txt" document. =
+This document contains important revisions to our current policies, =
+effective July 1, 2025.
+
+We encourage you to review the attached file at your earliest convenience. =
+If you have any questions, please do not hesitate to contact the HR =
+Department.
+
+Thank you for your attention to this matter.
+
+Sincerely,
+
+The HR Department
+Example Corporation
+
+------------=_8h1h1h1h1h1h1h1h1h1h1h1h1h1h1h1h
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<body>
+<p>Dear Employee,</p>
+<p>Please find attached the updated <strong>"Company Policy =
+Guidelines.txt"</strong> document. This document contains important =
+revisions to our current policies, effective <strong>July 1, =
+2025</strong>.</p>
+<p>We encourage you to review the attached file at your earliest =
+convenience. If you have any questions, please do not hesitate to contact =
+the HR Department.</p>
+<p>Thank you for your attention to this matter.</p>
+<p>Sincerely,</p>
+<p>The HR Department<br>Example Corporation</p>
+</body>
+</html>
+
+------------=_8h1h1h1h1h1h1h1h1h1h1h1h1h1h1h1h--
+
+------------=_7g0g0g0g0g0g0g0g0g0g0g0g0g0g0g0g
+Content-Type: text/plain; name="Company Policy Guidelines.txt"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="Company Policy Guidelines.txt"
+
+VGhpcyBpcyBhIHNhbXBsZSBjb21wYW55IHBvbGljeSBkb2N1bWVudCBmb3IgdGVzdGluZyBwdXJwb3Nlcy4K
+CkluY2x1ZGVkIGhlcmUgYXJlIHNvbWUgaW1wb3J0YW50IHBvaW50czoKLSBTZWN0aW9uIDE6IE5ldyBG
+cmVxdWVuY3kgb2YgTWVldGluZ3MKLSBTZWN0aW9uIDI6IFJldmlzZWQgVHJhdmVsIFBvbGljeQotIFNl
+Y3Rpb24gMzogVXBkYXRlZCBDb2RlIG9mIENvbmR1Y3QKCkVmZmVjdGl2ZSBEYXRlOiBKdWx5IDEsIDIw
+MjUuCg==
+
+------------=_7g0g0g0g0g0g0g0g0g0g0g0g0g0g0g0g--

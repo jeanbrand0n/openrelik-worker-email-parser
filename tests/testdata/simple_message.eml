@@ -1,0 +1,10 @@
+From: Alice Example <alice@example.com>
+To: Bob Recipient <bob@example.com>
+Subject: Test Email for EML Parsing
+Date: Tue, 17 Jun 2025 14:30:00 +0200
+Message-ID: <test-message-1234@example.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+
+This is a test email.
